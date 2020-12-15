@@ -8,6 +8,8 @@ Created on Wed Dec  2 10:42:31 2020
 import csv
 import pandas as pd
 import argparse
+from tqdm import tqdm
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-i","--input_data", help="",
@@ -23,7 +25,7 @@ args = parser.parse_args()
 A1_data_df = pd.read_csv((args.input_data))
 
 #Database di Aprile (20 righe)
-# A2_data_df = A1_data_df.head(100)
+A2_data_df = A1_data_df.head(100)
 
 #Database delle borough
 B_data_df = pd.read_csv((args.input_data1))
@@ -45,8 +47,7 @@ Borough=C_data_df['Borough'].unique()
 
 #Modo in cui vengono eseguiti i pagamenti in ogni distretto 
 df_out= pd.DataFrame(0,index=Borough, columns=type_payment)
-for i in range(len(C_data_df)): 
+for i in tqdm(range(len(C_data_df))): 
     df_out.loc[(C_data_df.loc[i,'Borough'],C_data_df.loc[i,'payment_type'])] += 1 
-
 
 
