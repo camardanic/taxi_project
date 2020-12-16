@@ -4,9 +4,13 @@ Scaletta lavoro svolto
 2 - Filtrato il database dei taxi prendendo le prime 100 righe
 3 - Si è aggiunto al database dei taxi, con il comando JOIN, la colonna dei rispettivi borough di PARTENZA
 4 - Modo in cui vengono eseguiti i pagamenti in ogni distretto 
+5 - Eliminato dalla colonna Payment type tutti i valori null.
 
 COSA DOBBIAMO FARE
 
+- Libreria OS (da usare nel argparse. Roba di cartelle e prensenza nelle cartelle)
+- DataBase B, (impostarlo in maniera fissa, senza la possibilità di poterlo cambiare)
+- argparse (type=list)
 - Classe join: PASSO 3 DELLA SCALETTA
 - Classe reader: PASSO 1 DELLA SCALETTA
 - Classe features: analisi dei dati e sviluppo del progetto
