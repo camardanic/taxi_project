@@ -7,6 +7,11 @@ Scaletta lavoro svolto
 
 COSA DOBBIAMO FARE
 
+- Libreria OS (da usare nel argparse. Roba di cartelle e prensenza nelle cartelle)
+- DataBase B, (impostarlo in maniera fissa, senza la possibilità di poterlo cambiare)
+- argparse (type=list)
+
+
 - Classe join: PASSO 3 DELLA SCALETTA
 - Classe reader: PASSO 1 DELLA SCALETTA
 - Classe features: analisi dei dati e sviluppo del progetto
