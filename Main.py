@@ -12,38 +12,45 @@ import argparse
 from os.path import splitext
 import pandas as pd
 import json
+from tqdm import tqdm
 
-# parser = argparse.ArgumentParser()
+# classe che viene istanziata dal main nel momento in cui si vuole effettuare
+# il conteggio dei tipi di pagamento relativi # le corse dei taxi di NY 
+# in un determinato mese,come input riceve una lista di file che devono
+# trovarsi della cartella C:/Documents/Log_Elearning/taxi_project/data
 
-# parser.add_argument("-i", "--in_data", help="Complete path il file input_data.json",
-#                     type=str, default='./data/yellow_tripdata_2020-04.csv')
-
-# parser.add_argument("-i1", "--in_data1", help="Complete path il file input_data.json",
-#                     type=str, default='./data/taxi+_zone_lookup.csv')
-
-# parser.add_argument("-o", "--out_data", help="Complete path il file input_data.json",
-#                     type=str, default='./results/output_data.xlsx')
-
-# args = parser.parse_args()
-
-
-
-class file_list_features():
+class file_list_features:
     
-    def __init__(self,list_of_file):
-        self.list_of_file = list_of_file
-        
+    def __init__(self):
+         # self.Borough_df = pd.read_csv('./data/taxi+_zone_lookup.csv')
+         pass
     
-    def lista_features(list_of_file):
-        file_letti=[]
+    def lista_features(self,list_of_file):
+        Borough_df = pd.read_csv('./data/taxi+_zone_lookup.csv')
+        elenco_corse_df = pd.DataFrame()
         i = 0
         for filename in list_of_file:
-            data_input_df = Reader.create_instance(filename)
-            file_letti.append(data_input_df)
+            reader = Reader.create_instance(filename)      
+            temp_df = reader.get_lista_delle_corse()
             i +=1
-            df_out = features().get_features(data_input_df)
+            # temp_df = decorator().elimina_Nan(temp_df)
+            elenco_corse_df = pd.concat([elenco_corse_df,temp_df])
             
-        'alla fine del ciclo si sommano tutte le features e si mandano come output'
+        #Ampliato il database iniziale, aggiungendo informazioni attraverso il Location ID in merito al Distretto di inizio corsa(PULocation)
+        input_data_df = elenco_corse_df.join(Borough_df.set_index('LocationID'), on='PULocationID')
+        
+        #Tipi di pagamento
+        type_payment=input_data_df['payment_type'].unique()
+        
+        #Elenco dei Borough
+        Borough=input_data_df['Borough'].unique()
+                    
+        #Modo in cui vengono eseguiti i pagamenti in ogni distretto 
+        df_out= pd.DataFrame(0,index=Borough, columns=type_payment)
+        for i in tqdm(range(len(input_data_df))): 
+            df_out.loc[(input_data_df.loc[i,'Borough'],input_data_df.loc[i,'payment_type'])] += 1 
+
+
         return df_out
   
     
@@ -59,7 +66,7 @@ class Reader(ABC):
     """
     interface
     """
-
+    
     @abstractmethod
     def get_lista_delle_corse(self):
         """
@@ -82,45 +89,30 @@ class Reader(ABC):
         
 
 class JSONReader(Reader):
-      def __init__(self, filename):
-        self.filename = filename
-
+      def __init__(self,filename):
+          self.filename = filename
+          
 
       def get_lista_delle_corse(self):        
         
-          fin=open('./data/'+self.filename,'r')
+          fin=open(('./data/'+self.filename),'r')
           text = fin.read()
           data = json.loads(text)
           data = pd.DataFrame(data)
+          fin.close()
           return data
 
 
 class CSVReader(Reader):
      
-    def __init__(self, filename):
-        self.filename = filename
+     def __init__(self,filename):
+          self.filename = filename
+          
 
-    def get_lista_delle_corse(self):        
-        data = pd.read_csv('./data/'+self.filename)
-        
-        return data
-
-
-class features():
-    
-    def get_features(self,data_input):
-       pass
-       # df_corse = data_input.decorator(data_input['payment_type'])
-    """
-    classe incaricata di estrarre il dataframe contenente
-    le informazioni richieste
-    """
-    pass    
-
-
-
-
-
+     def get_lista_delle_corse(self): 
+         
+         data = pd.read_csv(('./data/' + self.filename))   
+         return data
 
 
 class join():
@@ -129,13 +121,11 @@ class join():
 
 
 class decorator():
+    pass
     
-        """
-        classe che deve verificare se all'interno del
-        database non ci siano valori come payment type
-        al di fuori dell'intervallo di interi {1;6}'
-        """
-        pass
+     # def elimina_Nan(self,df):
+         
+        # pass
         
 
 
@@ -146,11 +136,12 @@ class decorator():
 
 #crea lista dei file da analizzare,questi devono essere salvati nella cartella
 #data che si trova sul path C:/Documents/taxi_project/
-dati = file_list_features.lista_features(['yellow_tripdata_2020-04.csv','yellow_tripdata_2020-04.csv'])
+dati = file_list_features()
+dati = dati.lista_features(['yellow_tripdata_2020-04.csv'])
 
-reader = Reader.create_instance(dati)
+# reader = Reader.create_instance(dati)
 
-df_taxi = reader.get_lista_delle_corse()
+# df_taxi = reader.get_lista_delle_corse()
 
 
 
