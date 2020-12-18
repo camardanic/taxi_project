@@ -1,0 +1,18 @@
+18/12
+- finita la classe file_list_features() che legge lista di file dei taxi e restituice
+  il conteggio completo dei tipi di pagamenbto per ogni Borough
+
+
+
+
+
+
+COSE DA FARE:
+
+-implementazione delle classi join e decoretor che uniscono i file di ingresso con la lista dei Borough in base al numeroID della zona
+ e che eliminano tutte le righe del dataframe che contengono valori NaN
+
+-fare in modo che la classe file_list_features() possa ricevere in ingresso anche la lista dei nomi dei Borough dei quali si vogliano
+ avere le features scartando le righe del df_out non desiderate (di default invece restituisce tutti i Borough)
+
+-(facoltativo) sostituire i numeri delle colonne di df_out con i tipi di pagamento scritti per esteso
