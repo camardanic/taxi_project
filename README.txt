@@ -1,5 +1,5 @@
 INTRO
-Questa repository fornisce script per scaricare, elaborare ed analizzare i dati delle corse in taxy che hanno luogo New York City dal 2020.
+Questa repository fornisce script per elaborare ed analizzare i dati delle corse in taxy che hanno luogo nella città di New York City dal 2020.
 
 OBIETTIVO
 Analizzare per ogni distretto (Borough) le modalità di pagamento più comuni identificando il numero di pagamenti per ogni possibile metodo. 
