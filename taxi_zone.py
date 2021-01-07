@@ -60,3 +60,18 @@ for i in tqdm(range(len(C_data_df))):
 
 A2_data_df['payment_type'].describe()
 
+
+
+#Elenco dei Borough richiesti dall'utente(non tutti,esempio Manhattan)
+Borough=['Manhattan']
+C_data_df=C_data_df.set_index('Borough')
+C_data_df=C_data_df.loc[Borough]
+C_data_df=C_data_df.reset_index()
+
+#Modo in cui vengono eseguiti i pagamenti in ogni distretto 
+df_out= pd.DataFrame(0,index=Borough, columns=type_payment)
+for i in tqdm(range(len(C_data_df))): 
+    df_out.loc[(C_data_df.loc[i,'Borough'],C_data_df.loc[i,'payment_type'])] += 1 
+
+
+
