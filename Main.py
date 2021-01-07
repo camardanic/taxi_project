@@ -7,25 +7,25 @@ Created on Mon Dec  7 17:31:41 2020
 # questo è il file iniziale
 
 from abc import ABC, abstractmethod
-import csv
-import argparse
+# import csv
+# import argparse
 from os.path import splitext
 import pandas as pd
 import json
 from tqdm import tqdm
 
 # classe che viene istanziata dal main nel momento in cui si vuole effettuare
-# il conteggio dei tipi di pagamento relativi # le corse dei taxi di NY 
-# in un determinato mese,come input riceve una lista di file che devono
-# trovarsi della cartella C:/Documents/Log_Elearning/taxi_project/data
+# il conteggio dei tipi di pagamento relativi alle corse dei taxi di NY 
+# come input riceve una lista di file che devono
+# trovarsi nella cartella C:/Documents/Log_Elearning/taxi_project/data
 
 class file_list_features:
     
     def __init__(self):
-         # self.Borough_df = pd.read_csv('./data/taxi+_zone_lookup.csv')
+       
          pass
     
-    def lista_features(self,list_of_file):
+    def list_features(self,list_of_file):
         Borough_df = pd.read_csv('./data/taxi+_zone_lookup.csv')
         elenco_corse_df = pd.DataFrame()
         i = 0
@@ -49,19 +49,15 @@ class file_list_features:
         df_out= pd.DataFrame(0,index=Borough, columns=type_payment)
         for i in tqdm(range(len(input_data_df))): 
             df_out.loc[(input_data_df.loc[i,'Borough'],input_data_df.loc[i,'payment_type'])] += 1 
-
-
+        
+        # if distr == 0 :
+        #     return df_out
+        # else:
+        # # localizzare solo le righe relative ai Borough richiesti
+        #    df_out = df_out.loc[[distr]]
         return df_out
   
     
-  
-    
-  
-    
-  
-    
-  
-
 class Reader(ABC):
     """
     interface
@@ -76,7 +72,10 @@ class Reader(ABC):
 
     @staticmethod
     def create_instance(filename):
-       
+            
+            # Interfaccia per il riconoscimento dell'estenzione del file
+            # in input del metodo di lettura corretto
+ 
             suffix = splitext(filename)[1][1:].lower()
             if suffix == 'json':
                 return JSONReader(filename)
@@ -137,7 +136,7 @@ class decorator():
 #crea lista dei file da analizzare,questi devono essere salvati nella cartella
 #data che si trova sul path C:/Documents/taxi_project/
 dati = file_list_features()
-dati = dati.lista_features(['yellow_tripdata_2020-04.csv'])
+dati = dati.list_features(['yellow_tripdata_2020-04.csv'])
 
 # reader = Reader.create_instance(dati)
 
