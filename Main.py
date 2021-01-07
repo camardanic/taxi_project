@@ -25,7 +25,7 @@ class file_list_features:
        
          pass
     
-    def list_features(self,list_of_file):
+    def list_features(self,list_of_file,Borough = []):
         Borough_df = pd.read_csv('./data/taxi+_zone_lookup.csv')
         elenco_corse_df = pd.DataFrame()
         i = 0
@@ -42,19 +42,27 @@ class file_list_features:
         #Tipi di pagamento
         type_payment=input_data_df['payment_type'].unique()
         
-        #Elenco dei Borough
-        Borough=input_data_df['Borough'].unique()
-                    
-        #Modo in cui vengono eseguiti i pagamenti in ogni distretto 
-        df_out= pd.DataFrame(0,index=Borough, columns=type_payment)
-        for i in tqdm(range(len(input_data_df))): 
-            df_out.loc[(input_data_df.loc[i,'Borough'],input_data_df.loc[i,'payment_type'])] += 1 
-        
-        # if distr == 0 :
-        #     return df_out
-        # else:
-        # # localizzare solo le righe relative ai Borough richiesti
-        #    df_out = df_out.loc[[distr]]
+        # se non è stata inserita in ingresso una lista di Borough desiderati
+        # di default il programma analizza tutte le corse su tutti i distretti
+        if Borough == []:
+            Borough = input_data_df['Borough'].unique()              
+            #Modo in cui vengono eseguiti i pagamenti in ogni distretto 
+            df_out= pd.DataFrame(0,index=Borough, columns=type_payment)
+            for i in tqdm(range(len(input_data_df))): 
+                df_out.loc[(input_data_df.loc[i,'Borough'],input_data_df.loc[i,'payment_type'])] += 1 
+
+        else:
+        # se è stata inerita una lista di Borough si riduce il Dataframe
+        # in input eliminando tutti gli indici corrispondenti ai distretti non
+        # richiesti e poi si procede con il conteggio dei payments type
+            input_data_df=input_data_df.set_index('Borough')
+            input_data_df=input_data_df.loc[Borough]
+            input_data_df=input_data_df.reset_index()
+            df_out= pd.DataFrame(0,index=Borough, columns=type_payment)
+            
+            for i in tqdm(range(len(input_data_df))): 
+                df_out.loc[(input_data_df.loc[i,'Borough'],input_data_df.loc[i,'payment_type'])] += 1 
+
         return df_out
   
     
@@ -136,7 +144,7 @@ class decorator():
 #crea lista dei file da analizzare,questi devono essere salvati nella cartella
 #data che si trova sul path C:/Documents/taxi_project/
 dati = file_list_features()
-dati = dati.list_features(['yellow_tripdata_2020-04.csv'])
+dati = dati.list_features(['yellow_tripdata_2020-04.csv'],['Manhattan'])
 
 # reader = Reader.create_instance(dati)
 
