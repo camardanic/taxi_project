@@ -21,15 +21,15 @@ from tqdm import tqdm
 
 class file_list_features:
     
-    def __init__(self):
-        
-         pass
+    def __init__(self,list_of_file):
+        self.list_of_file = list_of_file
+         
     
-    def list_features(self,list_of_file,Borough = []):
+    def list_features(self,Borough = []):
         Borough_df = pd.read_csv('./data/taxi+_zone_lookup.csv')
         elenco_corse_df = pd.DataFrame()
         i = 0
-        for filename in list_of_file:
+        for filename in self.list_of_file:
             reader = Reader.create_instance(filename)      
             temp_df = reader.get_lista_delle_corse()
             i += 1
@@ -41,7 +41,7 @@ class file_list_features:
         
         # istanziato un oggetto della classe decorator relativo al Dataframe
         # in input
-        decorator = Decorator()
+        decorator = Decorator(input_data_df)
 
         #Tipi di pagamento
         type_payment=input_data_df['payment_type'].unique()
@@ -143,18 +143,21 @@ class Decorator():
           pass
         
     def elimina_Borough(self):
-        pass
-
+          pass
+  
 
 
 # ______________________________________________________________
 #  INTERFACCIA UTENTE
 
-#crea lista dei file da analizzare, questi devono essere salvati nella cartella
-#data che si trova sul path C:/Documents/taxi_project/
+# si istanzi la lista dei file da analizzare, questi devono essere salvati 
+# nella cartella "data" che si trova sul path C:/Documents/taxi_project/
+dati = file_list_features(['yellow_tripdata_2020-04.csv'])
 
-dati = file_list_features()
-dati = dati.list_features(['yellow_tripdata_2020-04.csv'],['Manhattan'])
+# per ricevere la lista del conteggio di tutti i metodi di pagamento
+# usare il metodo list_features 
+dati = dati.list_features(['Manhattan'])
+
 
 
 
