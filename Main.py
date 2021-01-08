@@ -41,8 +41,8 @@ class file_list_features:
         
         # istanziato un oggetto della classe decorator relativo al Dataframe
         # in input
-        decorator = Decorator(input_data_df)
-
+        standardizator = Standardizator(input_data_df)
+        
         #Tipi di pagamento
         type_payment=input_data_df['payment_type'].unique()
         
@@ -134,7 +134,7 @@ class join():
 
 # classe chiamata nel momento in cui il df di input deve essere
 # pulito da righe non utili ai fini del conteggio
-class Decorator():
+class Standardizator():
 
     def __init__(self,df):
         self.df = df
@@ -145,6 +145,7 @@ class Decorator():
     def elimina_Borough(self):
           pass
   
+
 
 
 # ______________________________________________________________
