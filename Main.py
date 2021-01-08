@@ -22,7 +22,7 @@ from tqdm import tqdm
 class file_list_features:
     
     def __init__(self):
-       
+        
          pass
     
     def list_features(self,list_of_file,Borough = []):
@@ -32,13 +32,17 @@ class file_list_features:
         for filename in list_of_file:
             reader = Reader.create_instance(filename)      
             temp_df = reader.get_lista_delle_corse()
-            i +=1
-            # temp_df = decorator().elimina_Nan(temp_df)
+            i += 1
             elenco_corse_df = pd.concat([elenco_corse_df,temp_df])
-            
-        #Ampliato il database iniziale, aggiungendo informazioni attraverso il Location ID in merito al Distretto di inizio corsa(PULocation)
+        
+        #Ampliato il database iniziale, aggiungendo informazioni attraverso 
+        # il Location ID in merito al Distretto di inizio corsa(PULocation)
         input_data_df = elenco_corse_df.join(Borough_df.set_index('LocationID'), on='PULocationID')
         
+        # istanziato un oggetto della classe decorator relativo al Dataframe
+        # in input
+        decorator = Decorator()
+
         #Tipi di pagamento
         type_payment=input_data_df['payment_type'].unique()
         
@@ -65,17 +69,17 @@ class file_list_features:
 
         return df_out
   
+    # ---------------------------------------------------------------------
+    # lettura dei file in input
     
 class Reader(ABC):
-    """
-    interface
-    """
+   # interfaccia che a seconda dell'estensione del file d'ingresso
+   # chiama il reader in grado di leggerlo
     
     @abstractmethod
     def get_lista_delle_corse(self):
-        """
-        abstract method
-        """
+        # Metodo astratto che deve essere sviluppato
+        # nelle sottoclassi di tipo Reader
         pass
 
     @staticmethod
@@ -92,9 +96,9 @@ class Reader(ABC):
             else:
                 raise ValueError('unknown file type')
             
-              
-        
-
+                   
+# sottoclassi di Reader che leggono i file delle corse
+# e restituiscono un dataframe 
 class JSONReader(Reader):
       def __init__(self,filename):
           self.filename = filename
@@ -109,46 +113,49 @@ class JSONReader(Reader):
           fin.close()
           return data
 
-
 class CSVReader(Reader):
      
      def __init__(self,filename):
           self.filename = filename
           
-
      def get_lista_delle_corse(self): 
          
          data = pd.read_csv(('./data/' + self.filename))   
          return data
 
 
+     # -------------------------------------------------------------------
+     
+     
 class join():
     
     pass
 
 
-class decorator():
-    pass
-    
-     # def elimina_Nan(self,df):
-         
-        # pass
-        
+# classe chiamata nel momento in cui il df di input deve essere
+# pulito da righe non utili ai fini del conteggio
+class Decorator():
 
+    def __init__(self,df):
+        self.df = df
+           
+    def elimina_Nan(self):
+          pass
+        
+    def elimina_Borough(self):
+        pass
 
 
 
 # ______________________________________________________________
+#  INTERFACCIA UTENTE
 
-
-#crea lista dei file da analizzare,questi devono essere salvati nella cartella
+#crea lista dei file da analizzare, questi devono essere salvati nella cartella
 #data che si trova sul path C:/Documents/taxi_project/
+
 dati = file_list_features()
 dati = dati.list_features(['yellow_tripdata_2020-04.csv'],['Manhattan'])
 
-# reader = Reader.create_instance(dati)
-
-# df_taxi = reader.get_lista_delle_corse()
 
 
 
