@@ -126,11 +126,6 @@ class CSVReader(Reader):
 
 
      # -------------------------------------------------------------------
-     
-     
-class join():
-    pass
-
 
 # classe chiamata nel momento in cui il df di input deve essere
 # pulito da righe non utili ai fini del conteggio
@@ -159,7 +154,7 @@ dati = file_list_features(['yellow_tripdata_2020-04.csv'])
 
 # per ricevere la lista del conteggio di tutti i metodi di pagamento
 # usare il metodo list_features 
-dati = dati.list_features(['Manhattan'])
+dati = dati.list_features(['Manhattan','Queens'])
 
 
 
