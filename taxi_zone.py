@@ -22,7 +22,7 @@ parser.add_argument("-i1","--input_data1", help="",
                     type=str, default='./data/taxi+_zone_lookup.csv')
 
 parser.add_argument("-o1", "--out_data1", help="", 
-                    type=str, default='./.results/PythonExport.xlsx')
+                    type=str, default='./results/PythonExport.xlsx')
 
 
 args = parser.parse_args()
@@ -43,7 +43,7 @@ C_data_df = A2_data_df.join(B_data_df.set_index('LocationID'), on='PULocationID'
 #Rimozione delle colonne superflue dal C_data_df
 C_data_df.drop(['Zone', 'service_zone'], axis=1, inplace=True)
 
-#Rimozione dalla colonna payment_type di tutte le righe con valoeri Nan
+#Rimozione dalla colonna payment_type di tutte le righe con valori Nan
 C_data_df.dropna(subset=['payment_type'], inplace=True)
 
 #Numero di pagamenti per ogni tipologia
@@ -78,6 +78,7 @@ for i in tqdm(range(len(C_data_df))):
     
 
 df_out.to_excel(args.out_data1)
+df_out.to_excel(r'./results/Payment_type.xls')
 
 
 
