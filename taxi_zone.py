@@ -21,6 +21,9 @@ parser.add_argument("-i","--input_data", help="",
 parser.add_argument("-i1","--input_data1", help="",
                     type=str, default='./data/taxi+_zone_lookup.csv')
 
+parser.add_argument("-o1", "--out_data1", help="", 
+                    type=str, default='./.results/PythonExport.xlsx')
+
 
 args = parser.parse_args()
 
@@ -72,6 +75,9 @@ C_data_df=C_data_df.reset_index()
 df_out= pd.DataFrame(0,index=Borough, columns=type_payment)
 for i in tqdm(range(len(C_data_df))): 
     df_out.loc[(C_data_df.loc[i,'Borough'],C_data_df.loc[i,'payment_type'])] += 1 
+    
+
+df_out.to_excel(args.out_data1)
 
 
 
