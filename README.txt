@@ -11,8 +11,10 @@ STRUTTURA DEL FILE:
 |-- Readme.md
 |-- data		: directory dei dati di input
 |-- documenti		: cartella contenente le richieste del progetto
-|-- Main.py		: file principali contenente le classi da utilizzare
 |-- taxy_zone.py	: prototipo iniziale dell'analisi, senza l'utilizzo di classi
+|-- Main.py		: file principali contenente le classi implementate
+|-- interfaccia utente  : interfaccia per l'utilizzo dell'utente
+|-- results             : cartella all'interno della quale viene salvato il file di output in formato xls
 
 PREREQUISITI
 E' necessario aver installato i seguenti software e librerie sulla macchina prima di eseguire l'applicazione.
@@ -28,22 +30,23 @@ LIBRERIE
 - json			:il formato JSON è spesso usato per lo scambio di dati tra moduli di applicazioni web, nonché per la gestione di file di configurazione o, più semplicemente, per archiviare dati in formato testuale
 
 ISTRUZIONI
-1. Aprire il file "Main.py" ed installare le librerie
-2. Scaricare i file delle corse dei taxi come indicato nella voce "FONTE DEI DATI" e salvarli nella cartella data.
-3. Creare le classi implementate nel file "Main.py"
-4. Istanziare uno o più oggetti della classe "file_list_features", a seconda del numero di analisi da svolgere
-5. Utilizzare il metodo "list_features" che riceve i seguenti parametri d'ingresso: 
-	- lista dei nomi dei file da analizzare (inseriti precedentemente nella cartella data) 
-	- in maniera opzionale lista dei distretti di cui si vogliono estrapolare i dati (Manhattan, Queens, Bronx, Brooklyn, Staten Island, EWR, Unknown)
-Se l'utente non inserisce il secondo parametro, il programma restituisce tutti i distretti.
+1. Scaricare i file delle corse dei taxi come indicato nella voce "FONTE DEI DATI" e salvarli nella cartella data/.
+2. Aprire file interfaccia_utente.py e seguire le istruzioni nei commenti per l'utilizzo dei comandi: 
+   2.1. Inserimento della lista dei file da analizzare per l'istanziamento della classe file_list_features 
+   2.2. (opzionale) lista dei distretti di cui si vogliono estrapolare i dati come input del metodo "list_features"
+        (Manhattan, Queens, Bronx, Brooklyn, Staten Island, EWR, Unknown)
+3. eseguire il run del file interfaccia_utente.py
+
+N.B. Se l'utente non inserisce il secondo parametro(2.2), il programma restituisce tutti i distretti.
 
 OUTPUT
-L'utente riceverà in output un Dataframe contenente:
-- sugli indici il nome dei singoli distretti richiesti in input
-- sulle colonne il conteggio associato ad ogni metodologia di pagamento identificata mediante l'apposito numero.
+L'utente riceverà in output:
+   1. un Dataframe visibile nell'ambiente di sviluppo utilizzato (fra le variabili create) contenente:
+       - sugli indici il nome dei singoli distretti richiesti in input
+       - sulle colonne il conteggio associato ad ogni metodologia di pagamento identificata mediante l'apposito numero.
+   2. un file xls nella cartella results/ contenente il DataFrame appena descritto
 
 N.B. Il conteggio viene eseguito nel distretto dove inizia la corsa
-
 
 LEGENDA TIPOLOGIA DI PAGAMENTO
 Codice numerico associato alla tipologia di pagamento
