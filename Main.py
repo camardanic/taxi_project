@@ -39,9 +39,10 @@ class file_list_features:
         # il Location ID in merito al Distretto di inizio corsa(PULocation)
         input_data_df = elenco_corse_df.join(Borough_df.set_index('LocationID'), on='PULocationID')
         
-        # istanziato un oggetto della classe decorator relativo al Dataframe
+        # istanziato un oggetto della classe Standardizator relativo al Dataframe
         # in input
-        standardizator = Standardizator(input_data_df)
+        std = Standardizator(input_data_df)
+        input_data_df = std.elimina_Nan(input_data_df)
         
         #Tipi di pagamento
         type_payment=input_data_df['payment_type'].unique()
@@ -128,7 +129,6 @@ class CSVReader(Reader):
      
      
 class join():
-    
     pass
 
 
@@ -139,8 +139,10 @@ class Standardizator():
     def __init__(self,df):
         self.df = df
            
-    def elimina_Nan(self):
-          pass
+    def elimina_Nan(self,df):
+            #Rimozione dalla colonna payment_type di tutte le righe con valori Nan
+            self.df = self.df.dropna(subset=['payment_type'])
+            return self.df
         
     def elimina_Borough(self):
           pass
